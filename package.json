@@ -1,0 +1,25 @@
+{
+  "name": "ethernet-ip-target",
+  "version": "1.0.0",
+  "description": "A module to build a EtherNet/IP target.",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haymanmk/ethernet-ip-target.git"
+  },
+  "keywords": [
+    "ethernet",
+    "ip",
+    "cip",
+    "target"
+  ],
+  "author": "hayman chan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haymanmk/ethernet-ip-target/issues"
+  },
+  "homepage": "https://github.com/haymanmk/ethernet-ip-target#readme"
+}
