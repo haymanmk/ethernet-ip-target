@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/haymanmk/ethernet-ip-target/issues"
   },
-  "homepage": "https://github.com/haymanmk/ethernet-ip-target#readme"
+  "homepage": "https://github.com/haymanmk/ethernet-ip-target#readme",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
 }

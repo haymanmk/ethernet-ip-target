@@ -1,0 +1,3 @@
+[submodule "src/node-ethernet-ip"]
+	path = src/node-ethernet-ip
+	url = https://github.com/cmseaton42/node-ethernet-ip.git
