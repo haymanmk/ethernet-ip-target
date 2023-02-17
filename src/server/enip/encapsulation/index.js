@@ -14,3 +14,5 @@ const registerSessionReply = (session_id, data = Buffer.alloc(4)) => {
 
   return build(RegisterSession, session_id, data);
 };
+
+module.exports = { registerSessionReply };

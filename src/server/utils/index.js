@@ -7,3 +7,5 @@ const crypto = require("crypto");
 const generateSessionID = () => {
   return crypto.randomBytes(4).readUInt32BE(0);
 };
+
+module.exports = { generateSessionID };

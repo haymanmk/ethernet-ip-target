@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/haymanmk/ethernet-ip-target#readme",
   "dependencies": {
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "ethernet-ip": "^1.2.5"
   }
 }
