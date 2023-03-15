@@ -1,6 +1,6 @@
 const dgram = require("dgram");
 const { ENIP } = require("../src/server/enip");
-const { generateSessionID } = require("../src/server/utils");
+const { generate32BitID } = require("../src/server/utils");
 const {
   registerSessionReply,
   CPF,
@@ -14,7 +14,7 @@ enip.createListener();
 
 enip.on("Register Session Request", (data) => {
   console.log("Register Session Request");
-  enip.state.session.id = generateSessionID();
+  enip.state.session.id = generate32BitID();
   enip.socket.write(registerSessionReply(enip.state.session.id, data));
 });
 
@@ -64,7 +64,13 @@ enip.on("SendRRData Request Received", (data, timeout) => {
   const MRData = data[1]; //the first item in data arry is the Address Item.
   const parsedMRData = MessageRouter.parse(MRData.data);
   forwardOpenRequest = ForwardOpen.parse(parsedMRData.request_data);
-  const forwardOpenReply = ForwardOpen.build(forwardOpenRequest);
+  const { generate32BitID } = require("../src/server/utils");
+  const forwardOpenReply = ForwardOpen.build(
+    forwardOpenRequest,
+    0,
+    [],
+    generate32BitID()
+  );
 
   let sockaddrArray = null;
   //create sockaddr info item in CPF
