@@ -156,6 +156,7 @@ const build = (
   message_request,
   general_status = 0x00,
   additional_status = [],
+  o_t_network_connection_id = message_request.o_t_network_connection_id,
   o_t_api = message_request.o_t_rpi,
   t_o_api = message_request.t_o_rpi,
   application_reply_buf = null
@@ -169,7 +170,7 @@ const build = (
 
   const buf = Buffer.alloc(26 + 2 * application_reply_size);
 
-  buf.writeUInt32LE(message_request.o_t_network_connection_id, 0);
+  buf.writeUInt32LE(o_t_network_connection_id, 0);
   buf.writeUInt32LE(message_request.t_o_network_connection_id, 4);
   buf.writeUInt16LE(message_request.connection_serial_num, 8);
   buf.writeUInt16LE(message_request.originator_vendor_id, 10);

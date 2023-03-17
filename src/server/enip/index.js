@@ -4,7 +4,23 @@ const { EIP_PORT } = require("../../node-ethernet-ip/src/config");
 const encapsulation = require("../enip/encapsulation");
 
 /**
- * EtherNet/IP
+ * EtherNet/IP class as a Server
+ *
+ * NOTE: ENIP class is built to listen the requests and send reply
+ * to the originators throught TCP. It will emit the events to inform
+ *  - status of Socket
+ *  - client(s) connected
+ *  - data received
+ * To further process the received data or information, it will be
+ * put in other submodules, for instance, IO module defined in io subfolder.
+ * These submodules represent different messaging type like class 0/1 IO messaging,
+ * Explicit messaging, ect. By splitting off processing/consuming
+ * from the data receiving, it makes developers/maintainers able to create a new
+ * data consuming function without having to modify the old ones. If the data consuming
+ * function is written in the ENIP class, then it might be sort of difficult to
+ * add a new data consuming process in it without having to change the codebase.
+ * On the contrary, when data consuming function is splitted off, then it becomes
+ * more easily to override the old one.
  *
  * @class ENIP
  * @extends {Server}
@@ -70,6 +86,22 @@ class ENIP extends Server {
     }
   }
 
+  get localAddress() {
+    return this.socket && this.socket.localAddress.split(":").slice(-1)[0];
+  }
+
+  get localPort() {
+    return this.socket && this.socket.localPort;
+  }
+
+  get remoteAddress() {
+    return this.socket && this.socket.remoteAddress;
+  }
+
+  get remotePort() {
+    return this.socket && this.socket.remotePort;
+  }
+
   _initializeEventHandlers() {
     this.on("connection", this._handleConnectionEvent);
     this.on("error", this._handleErrorEvent);
@@ -97,7 +129,7 @@ class ENIP extends Server {
     const { header, CPF, commands } = encapsulation;
     const encapsulatedData = header.parse(data);
     const { statusCode, status, commandCode } = encapsulatedData;
-    const { generateSessionID } = require("../utils");
+    const { generate32BitID } = require("../utils");
 
     if (statusCode !== 0) {
       console.log(`Error <${statusCode}>:`.red, status.red);
@@ -111,7 +143,7 @@ class ENIP extends Server {
       this.state.error.msg = null;
       switch (commandCode) {
         case commands.RegisterSession:
-          this.state.session.id = generateSessionID();
+          this.state.session.id = generate32BitID();
           this.state.session.established = true;
           this.emit("Register Session Request", encapsulatedData.data);
           break;
